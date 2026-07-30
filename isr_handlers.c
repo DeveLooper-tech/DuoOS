@@ -15,7 +15,6 @@ static const char* exception_names[32] = {
     "Hypervisor injection exception", "VMM communication exception", "Security exception", "Reserved"
 };
 
-/* CPU kivetel (0-31) kezelese - egyelore csak kiirjuk es leallunk */
 void isr_handler(registers_t* regs) {
     terminal_write("\n[KIVETEL] ");
     if (regs->int_no < 32)

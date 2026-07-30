@@ -40,3 +40,32 @@ int pci_find_device(uint16_t vendor_id, uint16_t device_id, pci_device_t* out) {
     }
     return 0;
 }
+
+int pci_find_device_ids(uint16_t vendor_id, const uint16_t* device_ids,
+                        uint16_t count, pci_device_t* out) {
+    for (uint16_t bus = 0; bus < 256; bus++) {
+        for (uint8_t dev = 0; dev < 32; dev++) {
+            for (uint8_t func = 0; func < 8; func++) {
+                uint32_t id = pci_config_read32((uint8_t)bus, dev, func, 0x00);
+                if ((uint16_t)id != vendor_id)
+                    continue;
+                uint16_t device_id = (uint16_t)(id >> 16);
+                for (uint16_t i = 0; i < count; i++) {
+                    if (device_id == device_ids[i]) {
+                        uint32_t class_reg = pci_config_read32((uint8_t)bus, dev, func, 0x08);
+                        out->bus = (uint8_t)bus;
+                        out->device = dev;
+                        out->function = func;
+                        out->vendor_id = vendor_id;
+                        out->device_id = device_id;
+                        out->class_code = (uint8_t)(class_reg >> 24);
+                        out->subclass = (uint8_t)(class_reg >> 16);
+                        out->prog_if = (uint8_t)(class_reg >> 8);
+                        return 1;
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}

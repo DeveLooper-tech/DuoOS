@@ -12,5 +12,7 @@ typedef struct {
 uint32_t pci_config_read32(uint8_t bus, uint8_t device, uint8_t function, uint8_t offset);
 void pci_config_write32(uint8_t bus, uint8_t device, uint8_t function, uint8_t offset, uint32_t value);
 int pci_find_device(uint16_t vendor_id, uint16_t device_id, pci_device_t* out);
+int pci_find_device_ids(uint16_t vendor_id, const uint16_t* device_ids,
+                        uint16_t count, pci_device_t* out);
 
 #endif

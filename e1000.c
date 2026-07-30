@@ -1,7 +1,6 @@
 #include "e1000.h"
 #include "pci.h"
 #include "pmm.h"
-#include "terminal.h"
 
 #define REG_CTRL       0x0000
 #define REG_RCTRL      0x0100
@@ -71,8 +70,11 @@ static void read_mac(void) {
 
 int e1000_init(void) {
     pci_device_t dev;
-    if (!pci_find_device(0x8086, 0x100E, &dev)) {
-        terminal_write("Error did not find [e1000] (adj -device e1000 -netdev for QEMU)\n");
+    static const uint16_t supported_ids[] = {
+        0x1004, 0x100E, 0x100F, 0x1015, 0x1016, 0x1017, 0x101E, 0x1078
+    };
+    if (!pci_find_device_ids(0x8086, supported_ids,
+                             sizeof(supported_ids) / sizeof(supported_ids[0]), &dev)) {
         return 0;
     }
 
@@ -115,9 +117,6 @@ int e1000_init(void) {
     reg_write(REG_TCTRL, TCTL_EN | TCTL_PSP | (15 << 4) | (64 << 12));
     reg_write(REG_TIPG, 0x0060200A);
 
-    for (int i = 0; i < 6; i++) {
-    }
-    terminal_write("\n");
     return 1;
 }
 

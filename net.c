@@ -1,6 +1,5 @@
 #include "net.h"
-#include "e1000.h"
-#include "terminal.h"
+#include "nic.h"
 #include <stddef.h>
 
 static inline uint16_t swap16(uint16_t v) { return (uint16_t)((v << 8) | (v >> 8)); }
@@ -65,7 +64,7 @@ static uint16_t checksum16(const void* data, int len) {
 }
 
 void net_init(uint32_t ip_addr) {
-    e1000_get_mac(my_mac);
+    nic_get_mac(my_mac);
     my_ip = ip_addr;
 }
 
@@ -87,7 +86,7 @@ static void send_arp_reply(arp_packet_t* req, eth_header_t* req_eth) {
     for (int i = 0; i < 6; i++) arp->tha[i] = req->sha[i];
     arp->tpa = req->spa;
 
-    e1000_send(frame, sizeof(frame));
+    nic_send(frame, sizeof(frame));
 }
 
 static void send_icmp_reply(eth_header_t* req_eth, ipv4_header_t* req_ip,
@@ -124,7 +123,7 @@ static void send_icmp_reply(eth_header_t* req_eth, ipv4_header_t* req_ip,
     for (int i = 0; i < payload_len; i++) data[i] = payload[i];
     icmp->checksum = checksum16(icmp, (int)(sizeof(icmp_header_t) + (size_t)payload_len));
 
-    e1000_send(frame, (uint16_t)(sizeof(eth_header_t) + total_len));
+    nic_send(frame, (uint16_t)(sizeof(eth_header_t) + total_len));
 }
 
 static void handle_frame(uint8_t* buf, uint16_t len) {
@@ -158,6 +157,6 @@ static void handle_frame(uint8_t* buf, uint16_t len) {
 void net_poll(void) {
     uint8_t* buf;
     uint16_t len;
-    while (e1000_poll(&buf, &len))
+    while (nic_poll(&buf, &len))
         handle_frame(buf, len);
 }

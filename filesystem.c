@@ -107,7 +107,3 @@ int fs_write(fs_node_t* node, const char* text) {
     node->size = i;
     return text[i] == '\0';
 }
-
-const char* fs_type_name(fs_node_type_t type) {
-    return type == FS_DIRECTORY ? "dir" : "file";
-}

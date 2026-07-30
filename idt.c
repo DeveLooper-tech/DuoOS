@@ -57,8 +57,6 @@ void idt_init(void) {
     idt_set_gate(29, (uint64_t)isr29, 0x08, 0x8E);
     idt_set_gate(30, (uint64_t)isr30, 0x08, 0x8E);
     idt_set_gate(31, (uint64_t)isr31, 0x08, 0x8E);
-
-    /* hardver IRQ-k (a PIC remap utan 32-47 tartomanyban) */
     idt_set_gate(32, (uint64_t)irq0,  0x08, 0x8E);
     idt_set_gate(33, (uint64_t)irq1,  0x08, 0x8E);
     idt_set_gate(34, (uint64_t)irq2,  0x08, 0x8E);

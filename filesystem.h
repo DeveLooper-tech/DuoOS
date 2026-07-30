@@ -29,6 +29,5 @@ void fs_list_directory(fs_node_t* directory, fs_directory_visitor_t visitor, voi
 fs_node_t* fs_create(fs_node_t* directory, const char* name, fs_node_type_t type);
 int fs_remove(fs_node_t* node);
 int fs_write(fs_node_t* node, const char* text);
-const char* fs_type_name(fs_node_type_t type);
 
 #endif

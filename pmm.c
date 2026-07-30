@@ -2,7 +2,7 @@
 #include "multiboot2.h"
 #include "terminal.h"
 
-#define MAX_FRAMES ((uint64_t)4ULL * 1024 * 1024 * 1024 / PMM_FRAME_SIZE) /* 4 GiB / 4KB */
+#define MAX_FRAMES ((uint64_t)4ULL * 1024 * 1024 * 1024 / PMM_FRAME_SIZE)
 
 static uint8_t frame_bitmap[MAX_FRAMES / 8];
 static uint64_t free_frames = 0;

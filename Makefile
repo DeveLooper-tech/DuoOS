@@ -6,7 +6,7 @@ CFLAGS  = -ffreestanding -fno-stack-protector -fno-pic -mno-red-zone \
           -mcmodel=kernel -Wall -Wextra -c -std=gnu11
 ASFLAGS = -f elf64
 
-C_SOURCES = kernel.c terminal.c idt.c isr_handlers.c pic.c keyboard.c mouse.c gui.c pmm.c pci.c e1000.c net.c filesystem.c shell.c
+C_SOURCES = kernel.c terminal.c idt.c isr_handlers.c pic.c keyboard.c mouse.c gui.c pmm.c pci.c e1000.c rtl8139.c nic.c net.c filesystem.c shell.c
 ASM_SOURCES = boot.asm isr.asm
 
 C_OBJECTS = $(C_SOURCES:.c=.o)
