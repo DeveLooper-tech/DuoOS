@@ -58,5 +58,3 @@ qemu-system-x86_64 -cdrom duoos.iso -netdev user,id=n0 -device rtl8139,netdev=n0
 ```
 
 `make` creates the bootable `duoos.iso` image.
-
-**THIS DESCRIPTION WAS CREATED BY AI**
